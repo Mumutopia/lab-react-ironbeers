@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
+import NavMain from './NavMain';
 import axios from "axios"
 
 export default class BeerDetail extends Component {
 state = {
-    beer : null,
+    beers : null,
 }
 
 async componentDidMount() {
@@ -11,8 +12,10 @@ async componentDidMount() {
     try {
 
       const res = await axios.get(
-        'https://ih-beers-api2.herokuapp.com/:id'+this.props.match.params.id
+        'https://ih-beers-api2.herokuapp.com/beers/'+this.props.match.params.id
       );
+
+      console.log(res.data)
 
       this.setState({
         beers: res.data,
@@ -23,10 +26,14 @@ async componentDidMount() {
   }
 
     render() {
+      const { beers } = this.state;
+      console.log(beers)
         return (
-            <div>
-                hellooooooo
-            </div>
+          !beers ?  
+        ( <p>hello</p> ): 
+        (<div> <NavMain/>
+        <p>{beers.name}</p>
+      </div>)
         )
     }
 }
